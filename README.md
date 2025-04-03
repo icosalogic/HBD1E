@@ -17,7 +17,7 @@ Back side of board:
 - Utilizes a gate driver chip in an SOIC-16 wide package, with a pin layout supported by multiple vendors.
 - Each channel can be independently configured to be isolated from the gate driver control circuit.
 - Each channel can be independently configured to use a linear regulator to precisely control the gate driver voltage.
-- Most gate driver chips support configurable dead time.
+- Most compatible gate driver chips support configurable dead time.
 
 # Applications
 
@@ -43,12 +43,13 @@ so the control component must pull this signal low to enable switching.  Uses ty
 - VGD: Power to the gate driver regions, optionally through isolation modules.
 
 For the reference gate driver chip UCC21520, VCC and VGD may be the same for applications with lower
-gate voltages.  Or, you may choose to have them be separate, and use a higher voltage VGD to gain headroom
-through the isolated modules, and regulate it post-isolation to a precise gate drive voltage.
+gate voltages.  Or you may choose to have them be separate, and use a higher voltage VGD to gain headroom
+through the isolated modules, and configure the linear regulators to provide a precise post-isolation
+gate drive voltage.
 
 Note that there are no on-board connections for the high-current drain and source pins for either
-MOSFET Q1 or Q2.  These must be connected separately, either through an appropriately-sized wire or
-properly-designed laminated bus.
+MOSFET Q1 or Q2.  These must be connected separately, either through appropriately-sized wires or
+a properly-designed laminated bus.
 
 # Schematic
 
@@ -74,7 +75,7 @@ The front of the board has marked locations for two DC-DC isolated modules, U3 (
 
 ![Isolated module marking](media/pcb_isolation.png)  
 
-These modules take power from the Vgd pin, and supply it to the regions of the PCB driving the gates for
+These modules take power from the VGD pin, and supply it to the regions of the PCB driving the gates for
 the high side MOSFET Q1 and the low side MOSFET Q2.
 
 To make either region isolated, solder a DC-DC isolated converter module in the marked location.
@@ -119,16 +120,19 @@ listed above for that domain, and replace the associated diode (D1 or D3) with a
 
 # Configuring Dead Time
 
+![Dead time configuration](media/pcb_dead_time.png)  
+
 Some, but not all of the pin-compatible gate driver chips support controlling dead time between Q1 and Q2
-gate outputs through a resistor connected to pin 6.  If the gate driver chip you use does not support dead
+gate transitions, using a resistor connected to pin 6.  If the gate driver chip you use does not support dead
 time generation, then do not populate R1, R10 and C6, and ignore the rest of this section.
 
 If your gate driver chip supports dead time insertion, populate R10 and optionally C6 according to the
-datasheet for your chip.  Do not populate R1.  One strategy is to program an absolute minimum dead time
-via the hardware as described here, and program an optimized, longer dead time in your control logic,
-if it supports this capability.  If your control logic imposes a longer dead time on PWMH and PWML signals,
-any shorter dead time limit configured on the gate driver chip, as described in this section, will not
-impose any additional dead time.
+datasheet for your chip.  Do not populate R1.
+
+If your control logic providing the PWM signals also implements dead time, one strategy is to program an
+absolute minimum dead time via the hardware as described in this section, and program an optimized, longer
+dead time in your control logic.  The gate driver chip uses the longer of the hardware configured dead
+time or the software-controlled dead time in the PWM inputs.
 
 If your chip supports dead time insertion, but you wish to suppress it, populate R1, but not R10 and C6.
 This may be desireable if you use this board in a high-current parallel MOSFET application, as described
