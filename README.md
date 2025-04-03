@@ -98,9 +98,19 @@ Note that we used 2 resistors in series for the connection from the LM317 adjust
 The power dissipation from the minimum regulation current may exceed the limit for a typical
 1/10 watt resistor, so we use 2 resistors in series to spread the thermal load.
 
+The following table shows which resistors on this board map to those in a typical LM317 datasheet.
+This should allow you to select resistor values to configure your desired gate driver voltage.
+
+| Datasheet | High Side | Low Side |
+| --------- | --------- | -------- |
+|    R1     |    R16    |   R11    |
+|    R2     |  R14+R15  | R12+R13  |
+
+
 Note also that the LM317 is a very robust device that may not require all the configured components.
-The adjust capacitors may be omitted if your testing shows that ripple and other transients do not cause any
-downstream issues when switching the MOSFETs.  Each of the adjust capacitors is paired with a diode:
+The adjust capacitors may be omitted if your testing shows that ripple and other voltage transients
+do not cause any downstream issues when switching the MOSFETs.
+Each of the adjust capacitors is paired with a diode:
 
 - C9, D2
 - C11, D4
@@ -122,6 +132,8 @@ listed above for that domain, and replace the associated diode (D1 or D3) with a
 
 ![Dead time configuration](media/pcb_dead_time.png)  
 
+The components used to configure dead time are R1, R10 and C6.
+
 Some, but not all of the pin-compatible gate driver chips support controlling dead time between Q1 and Q2
 gate transitions, using a resistor connected to pin 6.  If the gate driver chip you use does not support dead
 time generation, then do not populate R1, R10 and C6, and ignore the rest of this section.
@@ -135,8 +147,8 @@ dead time in your control logic.  The gate driver chip uses the longer of the ha
 time or the software-controlled dead time in the PWM inputs.
 
 If your chip supports dead time insertion, but you wish to suppress it, populate R1, but not R10 and C6.
-This may be desireable if you use this board in a high-current parallel MOSFET application, as described
-above.
+This may be desireable if you use this board in a high-current parallel MOSFET application, where you want
+both MOSFETs on at the same time.
 
 # Reference Components
 
