@@ -3,9 +3,11 @@ Kicad project for a flexible gate driver board to drive two MOSFETs with TO-247-
 pinout [Drain, Source, KelvinSource, Gate].
 
 Front side of board:
+
 ![Image front of PCB](media/pcb_image_front.png)
 
 Back side of board:
+
 ![Image back of PCB](media/pcb_image_back.png)
 
 # Features
@@ -28,24 +30,25 @@ domains as non-isolated.
 
 # Board Connections
 
-Board input pins:
+Board input pins:  
+
 ![Board input pins](media/pcb_input.png)
 
-- PWMH: PWM signal for the high-side MOSFET Q1
-- PWML: PWM signal for the low-side MOSFET Q2
-- DISABL: Pull this value low to enable the driver chip.  There is a pull up resistor on this circuit,
-so the control component must pull this signal low to enable switching.
-- GND: Ground common to VCC and VGD
-- VCC: Power to the control side of the gate driver chip.
+- PWMH: PWM signal for the high-side MOSFET Q1, uses typical CMOS switching levels (off <= 0.8V, on >= 2.0V).
+- PWML: PWM signal for the low-side MOSFET Q2, uses typical CMOS switching levels.
+- DISABL: Pull this value low to enable the driver chip.  There is a pull up resistor to VCC on this circuit,
+so the control component must pull this signal low to enable switching.  Uses typical CMOS switching levels.
+- GND: Ground common to VCC and VGD.
+- VCC: Power to the control side of the gate driver chip.  Typically 3.3V or 5V, maximum 20V.
 - VGD: Power to the gate driver regions, optionally through isolation modules.
 
 For the reference gate driver chip UCC21520, VCC and VGD may be the same for applications with lower
-gate voltages.  Or, you may choose to use a higher voltage VGD to gain headroom through the isolated
-modules, and regulate it post-isolation to a precise gate drive voltage.
+gate voltages.  Or, you may choose to have them be separate, and use a higher voltage VGD to gain headroom
+through the isolated modules, and regulate it post-isolation to a precise gate drive voltage.
 
 Note that there are no on-board connections for the high-current drain and source pins for either
-MOSFET.  These must be connected separately, either through an appropriately-designed wire or
-laminated bus.
+MOSFET Q1 or Q2.  These must be connected separately, either through an appropriately-sized wire or
+properly-designed laminated bus.
 
 # Schematic
 
@@ -54,19 +57,22 @@ laminated bus.
 # PCB Details
 
 PCB components:
+
 ![PCB components](media/pcb_components.png)
 
 Front copper layer:
+
 ![PCB front copper layer](media/pcb_copper_front.png)
 
 Back copper layer:
+
 ![PCB back copper layer](media/pcb_copper_back.png)
 
 # Configuring Channel Isolation
 
-The front of the board has marked locations for two DC-DC isolated modules, U3 (high side) and U5 (low side).
+The front of the board has marked locations for two DC-DC isolated modules, U3 (high side, shown below) and U5 (low side).
 
-![Isolated module marking](media/pcb_isolation.png)
+![Isolated module marking](media/pcb_isolation.png)  
 
 These modules take power from the Vgd pin, and supply it to the regions of the PCB driving the gates for
 the high side MOSFET Q1 and the low side MOSFET Q2.
@@ -82,7 +88,7 @@ Ordinary AWG 20 gauge hookup wire is adequate.
 On the back side of the board, under the isolated modules U3 and U5, are locations for LM317 linear regulators
 and associated components.
 
-![Gate drive voltage regulation](media/pcb_isolation.png)
+![Gate drive voltage regulation](media/pcb_regulation.png)  
 
 - High Side: (under U3) U4, D3, D4, C10, C11, R14, R15, R16
 - Low Side: (under U5) U2, D1, D2, C7, C9, R11, R12, R13
@@ -110,6 +116,23 @@ components as listed above.
 
 To configure either of the power domains without voltage regulation, omit all of the regulation components
 listed above for that domain, and replace the associated diode (D1 or D3) with a 0 ohm shunt resistor.
+
+# Configuring Dead Time
+
+Some, but not all of the pin-compatible gate driver chips support controlling dead time between Q1 and Q2
+gate outputs through a resistor connected to pin 6.  If the gate driver chip you use does not support dead
+time generation, then do not populate R1, R10 and C6, and ignore the rest of this section.
+
+If your gate driver chip supports dead time insertion, populate R10 and optionally C6 according to the
+datasheet for your chip.  Do not populate R1.  One strategy is to program an absolute minimum dead time
+via the hardware as described here, and program an optimized, longer dead time in your control logic,
+if it supports this capability.  If your control logic imposes a longer dead time on PWMH and PWML signals,
+any shorter dead time limit configured on the gate driver chip, as described in this section, will not
+impose any additional dead time.
+
+If your chip supports dead time insertion, but you wish to suppress it, populate R1, but not R10 and C6.
+This may be desireable if you use this board in a high-current parallel MOSFET application, as described
+above.
 
 # Reference Components
 

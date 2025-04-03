@@ -3150,6 +3150,12 @@
 		(uuid "8882f2c2-85f5-48e8-86e5-71435d58f304")
 	)
 	(junction
+		(at 135.89 66.04)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "901cd233-27a8-42db-8ba9-60255fd4629a")
+	)
+	(junction
 		(at 97.79 120.65)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3214,6 +3220,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b15bfbfa-9816-44f0-997f-ae6fdd5cf59e")
+	)
+	(junction
+		(at 149.86 48.26)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b6e2f116-eafa-4d99-bf08-87d1b4e31831")
 	)
 	(junction
 		(at 147.32 83.82)
@@ -3331,6 +3343,16 @@
 	)
 	(wire
 		(pts
+			(xy 135.89 48.26) (xy 149.86 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "04e76c25-55d0-4859-a248-3a7df45855bc")
+	)
+	(wire
+		(pts
 			(xy 110.49 66.04) (xy 110.49 68.58)
 		)
 		(stroke
@@ -3358,6 +3380,16 @@
 			(type default)
 		)
 		(uuid "066f5f4b-229a-4049-884f-8b8beb4bec10")
+	)
+	(wire
+		(pts
+			(xy 135.89 58.42) (xy 135.89 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0c62d116-e327-42da-9adc-187f7e96bb5b")
 	)
 	(wire
 		(pts
@@ -4328,6 +4360,16 @@
 			(type default)
 		)
 		(uuid "9158cc97-2ad4-4d98-8009-a1bc5bf5fd6e")
+	)
+	(wire
+		(pts
+			(xy 135.89 50.8) (xy 135.89 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "920cd790-a425-4d02-9a75-7db0503bec89")
 	)
 	(wire
 		(pts
@@ -7909,6 +7951,76 @@
 			(project "HBD1E"
 				(path "/38c37fb8-112f-467b-a525-6bd471bac216"
 					(reference "TP2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_US")
+		(at 135.89 54.61 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "65e5a5ea-e35c-4bbc-a9dc-2dda56f52374")
+		(property "Reference" "R1"
+			(at 138.43 53.3399 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "47"
+			(at 138.43 55.8799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			(at 134.874 54.356 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 135.89 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 135.89 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "90f1e1a9-756d-4a42-8b84-a311b3451fdf")
+		)
+		(pin "2"
+			(uuid "7fd222b8-fb2f-4ca5-9c27-81cecec0a9cc")
+		)
+		(instances
+			(project "HBD1E"
+				(path "/38c37fb8-112f-467b-a525-6bd471bac216"
+					(reference "R1")
 					(unit 1)
 				)
 			)
