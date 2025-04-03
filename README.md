@@ -94,10 +94,6 @@ and associated components.
 - High Side: (under U3) U4, D3, D4, C10, C11, R14, R15, R16
 - Low Side: (under U5) U2, D1, D2, C7, C9, R11, R12, R13
 
-Note that we used 2 resistors in series for the connection from the LM317 adjust pin to VSSx.
-The power dissipation from the minimum regulation current may exceed the limit for a typical
-1/10 watt resistor, so we use 2 resistors in series to spread the thermal load.
-
 The following table shows which resistors on this board map to those in a typical LM317 datasheet.
 This should allow you to select resistor values to configure your desired gate driver voltage.
 
@@ -106,6 +102,9 @@ This should allow you to select resistor values to configure your desired gate d
 |    R1     |    R16    |   R11    |
 |    R2     |  R14+R15  | R12+R13  |
 
+Note that we used 2 resistors in series for the connection from the LM317 adjust pin to VSSx.
+The power dissipation from the minimum regulation current may exceed the limit for a typical
+1/10 watt resistor, so we use 2 resistors in series to spread the thermal load.
 
 Note also that the LM317 is a very robust device that may not require all the configured components.
 The adjust capacitors may be omitted if your testing shows that ripple and other voltage transients
@@ -141,14 +140,14 @@ time generation, then do not populate R1, R10 and C6, and ignore the rest of thi
 If your gate driver chip supports dead time insertion, populate R10 and optionally C6 according to the
 datasheet for your chip.  Do not populate R1.
 
+If your chip supports dead time insertion, but you wish to suppress it, populate R1, but not R10 and C6.
+This may be desireable if you use this board in a high-current parallel MOSFET application, where you want
+both MOSFETs on at the same time.
+
 If your control logic providing the PWM signals also implements dead time, one strategy is to program an
 absolute minimum dead time via the hardware as described in this section, and program an optimized, longer
 dead time in your control logic.  The gate driver chip uses the longer of the hardware configured dead
 time or the software-controlled dead time in the PWM inputs.
-
-If your chip supports dead time insertion, but you wish to suppress it, populate R1, but not R10 and C6.
-This may be desireable if you use this board in a high-current parallel MOSFET application, where you want
-both MOSFETs on at the same time.
 
 # Reference Components
 
