@@ -55,7 +55,7 @@ a properly-designed laminated bus.
 
 ![Schematic drawing](media/schematic.png)
 
-# PCB Details
+# PCB Layout Details
 
 PCB components:
 
@@ -170,16 +170,15 @@ filter components.
 
 ![Test points](media/pcb_test_point.png)
 
-There are numerous test points located on both sides of the board on which users can solder
+There are numerous test points located on both sides of the board to which users can solder
 surface mount test point loops, for example KOA Speer RCWCTE.
 This gives you the ability to clip oscilloscope leads to enable monitoring various signals while
 debugging the gate driver configuration.
 
-### Caution! Be very careful when connecting test leads to potentially high voltage points
-on the circuit board.
-### This board may use high voltages that are fatal to humans.
-### High voltages may also break test equipment if proper grounding and isolation practices are not followed.
-### Please be careful!
+### Caution!  This board may use high voltages that are hazardous to humans.
+- Be very careful when connecting test leads to potentially high voltage points on the circuit board.
+- High voltages may also break test equipment if proper grounding and isolation practices are not followed.
+- Please be careful!
 
 List of test points on the board:
 | Label |  Name    | Location | Description                                     |
