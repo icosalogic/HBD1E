@@ -1,5 +1,5 @@
 # HBD1E
-Kicad project for a flexible gate driver board to drive two MOSFETs with TO-247-4 package and
+Kicad project for a configurable gate driver board to drive two MOSFETs with TO-247-4 package and
 pinout [Drain, Source, KelvinSource, Gate].
 
 Front side of board:
@@ -148,6 +148,53 @@ If your control logic providing the PWM signals also implements dead time, one s
 absolute minimum dead time via the hardware as described in this section, and program an optimized, longer
 dead time in your control logic.  The gate driver chip uses the longer of the hardware configured dead
 time or the software-controlled dead time in the PWM inputs.
+
+# Configuring Input Signal Filtering
+
+![Input signal filter configuration](media/pcb_input_filters.png)
+
+Each of the 3 input signals from the controller to this gate driver board has an RC circuit to
+filter transients that may cause issues for the gate driver IC input logic.  These signals and the
+associated filter components are listed below.
+
+| Signal Name | Filter Resistor | Value | Capacitor | Value | Pull Up Resistor | Value |
+| ----------- | --------------- | ----- | --------- | ----- | ---------------- | ----- |
+|     PWMH    |       R4        |  47Ω   |     C1    |  33pF |                  |       |
+|     PWML    |       R5        |  47Ω   |     C4    |  33pF |                  |       |
+|    DISABL   |       R6        |  47Ω   |     C5    |   1nF |        R7        |  10k  |
+
+The size of all these components is 0805, making them less trouble to hand solder while changing
+filter components.
+
+# Test Points
+
+![Test points](media/pcb_test_point.png)
+
+There are numerous test points located on both sides of the board on which users can solder
+surface mount test point loops, for example KOA Speer RCWCTE.
+This gives you the ability to clip oscilloscope leads to enable monitoring various signals while
+debugging the gate driver configuration.
+
+### Caution! Be very careful when connecting test leads to potentially high voltage points
+on the circuit board.
+### This board may use high voltages that are fatal to humans.
+### High voltages may also break test equipment if proper grounding and isolation practices are not followed.
+### Please be careful!
+
+List of test points on the board:
+| Label |  Name    | Location | Description                                     |
+| ----- | ------   | -------- | ----------------------------------------------- |
+| TP1   | HS Gate  | Bottom   | High side MOSFET gate pin                       |
+| TP2   | LS Gate  | Bottom   | Low side MOSFET gate pin                        |
+| TP3   | VDDB     | Bottom   | Low side post-regulated gate driver voltage     |
+| TP4   | VDDA     | Top      | High side post-regulated gate driver voltage    |
+| TP5   | VDDA_ISO | Bottom   | High side post-isolation, pre-regulated voltage |
+| TP6   | PWMHF    | Top      | High side post-filter PWM input signal          |
+| TP7   | PWMLF    | Top      | Low side post-filter PWM input signal           |
+| TP8   | DISF     | Top      | Disable post-filter input signal                |
+| TP9   | VCC      | Top      | Logic side power for gate driver chip           |
+| TP10  | VGD      | Bottom   | Pre-isolation gate driver voltage               |
+| TP11  | VDDB_ISO | Bottom   | Low side post-isolation, pre-regulated voltage  |
 
 # Reference Components
 
