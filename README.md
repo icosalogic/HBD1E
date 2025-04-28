@@ -102,9 +102,21 @@ This should allow you to select resistor values to configure your desired gate d
 |    R1     |    R16    |   R11    |
 |    R2     |  R14+R15  | R12+R13  |
 
-Note that we used 2 resistors in series for the connection from the LM317 adjust pin to VSSx.
+Note that we used 2 resistors in series for the R2 resistor from the datasheet.
 The power dissipation from the minimum regulation current may exceed the limit for a typical
 1/10 watt resistor, so we use 2 resistors in series to spread the thermal load.
+
+Here is a table showing combinations for some typical gate drive voltages, using common resistor values.
+Of course, more precise voltages can be obtained using more specific resistor values and higher
+tolerance 0.1% resistors.
+
+| Target Voltage | R16/R11 | R14+R15/R12+R13 | Computed Voltage |
+| -------------- | ------- | --------------- | ---------------- |
+|       10       |   180   |     270/1000    |      10.069      |
+|       12       |   180   |     560/1000    |      12.083      |
+|       15       |   180   |    1000/1000    |      15.139      |
+|       18       |   180   |    1200/1200    |      17.917      |
+|       20       |   180   |    1200/1500    |      20.000      |
 
 Note also that the LM317 is a very robust device that may not require all the configured components.
 The adjust capacitors may be omitted if your testing shows that ripple and other voltage transients
@@ -202,3 +214,6 @@ List of test points on the board:
 - Isolated DC-DC module: Gaptec 3S7B-2424S3UP
 - Linear Regulator: Texas Instruments LM317
 
+# Example Bill of Materials (BOM)
+
+An example BOM is located in the file HBD1E_BOM.csv.
